@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type user struct {
@@ -12,19 +13,45 @@ type user struct {
 func main() {
 	users := []user{
 		{
-			Name:  "alaa",
-			Email: "alaa.attya91@gmai.com",
+			Name:  "bassant",
+			Email: "bassant.com",
 		},
 	}
 
 	jsonData, err := json.Marshal(users)
 	if err != nil {
-		println("could not marshal json: %s\n", err)
-		return
+		fmt.Printf("could not marshal json: %s\n", err)
+		//return
 	}
 
-	println("json data: \n", jsonData)
+	fmt.Printf("json data: %s\n", jsonData)
 
-	println("******************************")
-	println(users)
+	fmt.Printf("******************************")
+	//fmt.Printf(users)
 }
+
+// package main
+
+// import (
+// 	"encoding/json"
+// 	"fmt"
+// )
+
+// func main() {
+// 	data := map[string]interface{}{
+// 		"intValue":    1234,
+// 		"boolValue":   true,
+// 		"stringValue": "hello!",
+// 		"objectValue": map[string]interface{}{
+// 			"arrayValue": []int{1, 2, 3, 4},
+// 		},
+// 	}
+
+// 	jsonData, err := json.Marshal(data)
+// 	if err != nil {
+// 		fmt.Printf("could not marshal json: %s\n", err)
+// 		return
+// 	}
+
+// 	fmt.Printf("json data: %s\n", jsonData)
+// }
