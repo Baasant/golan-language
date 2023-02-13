@@ -26,8 +26,8 @@ func main() {
 
 	fmt.Printf("json data: %s\n", jsonData)
 
-	fmt.Printf("******************************")
-	//fmt.Printf(users)
+	//fmt.Printf("******************************")
+	//fmt.Printf(err)
 }
 
 // package main
