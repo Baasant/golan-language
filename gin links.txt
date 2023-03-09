@@ -1,0 +1,2 @@
+https://medium.com/@wattanai.tha/go-tutorial-series-ep-1-building-rest-api-with-gin-7c17c7ab1d5b
+https://jimkang.medium.com/golang-gin-gonic-restful-api-simple-tutorial-no-db-7a94c67522a5
