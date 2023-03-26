@@ -1,5 +1,5 @@
-module github.com/robbyklein/go-crud
-
+// module github.com/robbyklein/go-crud
+module go-crud
 go 1.18
 
 require (
