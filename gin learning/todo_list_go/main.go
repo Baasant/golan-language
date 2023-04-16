@@ -47,6 +47,7 @@ type (
 		CreateAt  time.Time     `"bson:"createAt"`
 	}
 
+	//this struct we need it for the front end 
 	todo struct {
 		ID        string    `json:"id"`
 		Title     string    `json:"title"`
@@ -54,6 +55,7 @@ type (
 		CreateAt  time.Time `json:"created_at"`
 	}
 )
+///////////////////////////
 
 // conect with db and start  the session
 func init() {
@@ -66,11 +68,43 @@ func init() {
 	sess.SetMode(mgo.Monotonic, true)
 	db = sess.DB(dbName)
 }
+// R ITS A POINTER TO HTTP REQUEST
+func homeHandler(w http.ResponseWriter,r*http.Request){
+	//if someone goes to my localhost it will rander the static
+err:=rnd.Template(w,hhtp/statusOk,[]string{"static/home.tpl"},nil)
+checkErr(err)
+}
 
+func fetchTodos(w http.ResponseWriter,r *http.Request){
+	todo:=[]todoModel{}
+	if err :=db.c(collectionName).Find(bson.M{}).All(&todos); err!=nil{
+		rnd.JSON(w,http.StatusProcessing,renderer.M{
+			"message":"Failed to fetch todo",
+			"error":err,
+		})
+		return
+	}
+	todoList :=[]todos{} //will be json
+
+	for _,t:=range todos{
+		todoList=append(toList,todo{
+			ID:t.ID.Hex(),
+			Tilte:t.t.Title,
+			Completed:t.Completed,
+			CreatedAt:t.CreateAt,
+		})
+	}
+	rnd.JSON(w,hhtp.statusOk,renderer.M{
+		"data":todoList,
+	})
+}
 //define main func
 
 func main (){
 	//create router 
+	//use to stop code 
+	stopShan :=make(chan os.Signal)
+	signal.Notify(stopChan,os.Interrupt)
 	r:=chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Get("/",homeHandler)
@@ -78,17 +112,28 @@ func main (){
 	srv:=&http.Server{
 		Addr:port,
 		Handler:r,
-		ReadTimeout: : 60*time.Second,
+		ReadTimeout:  60*time.Second,
 		WriteTimeout: 60*time.Second,
 		IdleTimeout :60*time.Second,
 	}
-	go func (){
-		log.Println("Listening on port",port)
-		if err:srv.ListenAndServe(); err! nil {
-			log.Printf("listen%s\n",err)
+	//////////used to stop code///////////////
+	go func() {
+		log.Println("Listening on port ", port)
+		if err := srv.ListenAndServe(); err != nil {
+			log.Printf("listen: %s\n", err)
 		}
-	}
+	}()
+	<-stopChan
+	log.Println("Shutting down server...")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	srv.Shutdown(ctx)
+	defer cancel()
+	log.Println("Server gracefully stopped!")
+	////////////////////////////
 }
+
+<-stopChan
+log.Println()
 
 func todoHandlers() http.Handler{
 	rg:=CHI.NewRouter()
