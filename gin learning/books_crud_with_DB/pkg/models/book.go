@@ -1,7 +1,7 @@
 package models
 
 import (
-	"books_crud_DB/pkg/config"
+	"books_crud_with_DB/pkg/config"
 
 	"github.com/jinzhu/gorm"
 )
@@ -10,7 +10,7 @@ var db *gorm.DB
 
 type Book struct {
 	gorm.Model
-	Name        string `gorm:'""json:"name"`
+	Name        string `gorm:"" json:"name"`
 	Author      string `json:"author"`
 	Publication string `json:"publication"`
 }
@@ -23,12 +23,16 @@ func init() {
 	db.AutoMigrate(&Book{})
 }
 
-func (b *Book) Createbook() *Book {
+//	func (b *Book) Createbook() *Book {
+//		db.NewRecord(b)
+//		db.Create(&b)
+//		return b
+//	}
+func (b *Book) CreateBook() *Book {
 	db.NewRecord(b)
 	db.Create(&b)
 	return b
 }
-
 func GetAllBooks() []Book {
 	var Books []Book
 	db.Find(&Books)
