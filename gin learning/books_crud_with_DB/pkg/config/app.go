@@ -14,8 +14,10 @@ var (
 // this function help us to open a connection with database
 func Connect() {
 	//if every thing okey that database that open will cpme inside d if there is error in the connection it come inside err
-	d, err := gorm.Open("mysql", "bassant:Bassant@12@/simplerest?charset=utf8&parseTime=True&loc=Local") //open a connection with database.
-	if err != nil {                                                                                      // id there is an error
+	// d, err := gorm.Open("mysql", "bassant:Bassant@12@/simplerest?charset=utf8&parseTime=True&loc=Local") //open a connection with database.
+	d, err := gorm.Open("mysql", "akhil:Axlesharma@12@/simplerest?charset=utf8&parseTime=True&loc=Local")
+
+	if err != nil { // id there is an error
 		panic(err)
 	} //if
 	db = d
