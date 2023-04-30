@@ -3,6 +3,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -15,7 +17,9 @@ var (
 func Connect() {
 	//if every thing okey that database that open will cpme inside d if there is error in the connection it come inside err
 	// d, err := gorm.Open("mysql", "bassant:Bassant@12@/simplerest?charset=utf8&parseTime=True&loc=Local") //open a connection with database.
-	d, err := gorm.Open("mysql", "akhil:Axlesharma@12@/simplerest?charset=utf8&parseTime=True&loc=Local")
+	dbUri := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", "root", "bassant123", "books")
+	d, err := gorm.Open("mysql", dbUri)
+	//d, err := gorm.Open("mysql", "root:bassant123/books?charset=utf8&parseTime=True&loc=Local") //open a connection with database.
 
 	if err != nil { // id there is an error
 		panic(err)
